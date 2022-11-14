@@ -3,6 +3,14 @@ import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import EndOfRoundModal from "./components/EndOfRoundModal";
 import EditPlayerModal from "./components/EditPlayerModal";
+import Player from "./components/Player";
+import WinnerModal from "./components/WinnerModal";
+import NewPlayerModal from "./components/NewPlayerModal";
+import NavBar from "./components/NavBar";
+import Table from "./components/Table";
+import {shuffle} from "./assets";
+import { max, min, phasesArray } from "./assets/constants";
+
 
 const App = () => {
 	const nameInputRef = useRef(null);
@@ -11,28 +19,51 @@ const App = () => {
 	const [playersElements, setPlayersElements] = useState();
 	const [isNewPlayerModal, setIsNewPlayerModal] = useState(false);
 	const [isEndOfRoundModal, setIsEndOfRoundModal] = useState(false);
+	const [isWinnerModal, setIsWinnerModal] = useState(false);
 	const [isEditPlayerModal, setIsEditPlayerModal] = useState(false);
 	const [playerName, setPlayerName] = useState('');
 	const [playerPointsInput, setPlayerPointsInput] = useState(0);
 	const [playerId, setPlayerId] = useState(null);
 	
-	const [phases, setPhases] = useState(['phase 1', 'phase 2', 'phase 3', 'phase 4', 'phase 5']);
+	const [phases, setPhases] = useState(localStorage.getItem('phases') ? JSON.parse(localStorage.getItem('phases')) : []);
 	const [completePhaseCheck, setCompletePhaseCheck] = useState(false);
+	const [winner, setWinner] = useState(false);
+	const [isGameEnd, setIsGameEnd] = useState(false);
+	
 
+	/* Handlers */
 	function handleNameChange(e) {
 		setPlayerName(e.target.value);
 	}
 
 	function handlePointChange(event) {
-		const [min, max] = [0, 1000];
-		const value = Math.max(min, Math.min(max, Number(event.target.value)));
-		setPlayerPointsInput(value);
+		if (event.keyCode === 8 && (+(event.target.value) === 0 || event.target.value.length === 1)) {
+			setPlayerPointsInput('');
+		} else if (window.getSelection().toString() === event.target.value && event.keyCode === 8) {
+			setPlayerPointsInput('');
+		} else if (event.target.value.length) {
+			let val = Math.max(min, Math.min(max, Number(event.target.value))).toString()
+			const indexOf = val.indexOf('0')
+			if (indexOf === 0 && val.length > 1) {
+				val = val.slice(indexOf, indexOf);
+			}
+
+			setPlayerPointsInput(val);
+		}
 	}
+	
 
 	function handleCompletePhase() {
 		setCompletePhaseCheck(prevCompletePhaseCheck => !prevCompletePhaseCheck);
 	}
 
+	function handleNewClick() {
+		setPhases(() => shuffle(phasesArray));
+	}
+
+
+
+	/* Modals */
 	function openNewPlayerModal() {
 		setIsNewPlayerModal(true);
 		setTimeout(() => {
@@ -43,7 +74,48 @@ const App = () => {
 	function closeNewPlayerModal() {
 		setIsNewPlayerModal(false);
 	}
+	
+	function openEditPlayerModals(event, id, playerRef, editBtnRef, removeBtnRef) {
+		if (editBtnRef.current === event.target) {
+			setIsEditPlayerModal(true);
+			// Focus and select input in edit player modal
+			// setTimeout(() => {
+			// 	pointsInputRef.current.focus();
+			// 	pointsInputRef.current.select();
+			// }, 100);
+			setPlayerId(id);
+			// return;
+		} else if(removeBtnRef.current === event.target) {
+			setPlayers(prevPlayers => {
+				return prevPlayers.filter(player => {
+					return player.id !== id
+				})
+			})
+		} else if (event.target === playerRef.current || playerRef.current.contains(event.target)) {
+			setIsEndOfRoundModal(true);
+			setTimeout(() => {
+				pointsInputRef.current.focus();
+				pointsInputRef.current.select();
+			}, 100);
+			setPlayerId(id);
+		}
+	}
 
+	function closeEndOfRoundModal() {
+		setIsEndOfRoundModal(false);
+		setPlayerPointsInput(0);
+	}
+	
+	function closeEditPlayerModal() {
+		setIsEditPlayerModal(false);
+	}
+	function closeWinnerModal() {
+		setIsGameEnd(false);
+	}
+
+
+	
+	/* Player functions */
 	function addNewPlayer(name) {
 		setPlayers(prevPlayers => {
 			return [
@@ -58,37 +130,14 @@ const App = () => {
 		})
 		setPlayerName('');
 		setIsNewPlayerModal(false);
+		if (players.length === 0) {
+			setPhases(() => shuffle(phasesArray));
+		}
 	}
 
 	function resetPlayers() {
 		setPlayers([]);
-	}
-
-	function openEndOfRoundModal(id) {
-		setIsEndOfRoundModal(true);
-		setTimeout(() => {
-			pointsInputRef.current.focus();
-			pointsInputRef.current.select();
-		}, 100);
-		setPlayerId(id);
-	}
-
-	function closeEndOfRoundModal() {
-		setIsEndOfRoundModal(false);
-	}
-
-	function openEditPlayerModal(id) {
-		setIsEditPlayerModal(true);
-		// Focus and select input in edit player modal
-		// setTimeout(() => {
-		// 	pointsInputRef.current.focus();
-		// 	pointsInputRef.current.select();
-		// }, 100);
-		setPlayerId(id);
-	}
-
-	function closeEditPlayerModal() {
-		setIsEditPlayerModal(false);
+		setWinner(false);
 	}
 
 	function updatePlayerInfo(id) {
@@ -111,100 +160,60 @@ const App = () => {
 		setCompletePhaseCheck(false);
 	}
 
-
-
-
-	useEffect(() => {
+	function createPlayerElements() {
 		setPlayersElements(players.length ? 
 			players.map(player => {
 				return (
-					<tr 
-						className="border-bottom border-b-2 border-blue-50"
+					<Player
 						key={player.id}
-						onClick={() => openEndOfRoundModal(player.id)}
-					>
-						<td className="p-2">
-							<span className="block w-full capitalize">{player.name}</span>
-							<span className="block w-full">{phases[player.phase-1]}</span>
-						</td>
-						<td className="p-2 text-center">{player.points}</td>
-						<td className="p-2 text-center">{player.phase}</td>
-						{/* <td className="p-2 text-center">
-							<button className="bg-[#ef233c] h-6 pl-2 pr-2 pb-1 rounded leading-[1] flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors">x</button>
-						</td>
-						<td className="p-2 text-center">
-							<button className="bg-[#274c77] h-6 pl-2 pr-2 rounded leading-[1] flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors"
-								onClick={openEditPlayerModal}
-							>edit</button>
-						</td> */}
-					</tr>
+						player={player}
+						phases={phases}
+						openEditPlayerModals={openEditPlayerModals}
+					/>
 				)
 			}) : <tr className="text-center w-full"><td className="p-2 font-semibold text-[28px]" colSpan='100%'>No players</td></tr>)
+	}
 
-			localStorage.setItem('players', JSON.stringify(players));
-	}, [players])
+
+
+	/* UseEffects */
+	useEffect(() => {
+		createPlayerElements()
+		localStorage.setItem('players', JSON.stringify(players));
+		setWinner(players.filter(player => player.phase === 10));
+	}, [players]);
+
+	useEffect(() => {
+		localStorage.setItem('phases', JSON.stringify(phases));
+		createPlayerElements()
+	}, [phases])
+
+	useEffect(() => {
+		if (winner.length) {
+			setIsGameEnd(true);
+		}
+	}, [winner])
 
   return (
 	<>
-		<div className="grid grid-cols-4 gap-1">
-			<label htmlFor="sort" className="bg-[#274c77] h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors">
-				Sort
-				<input type="checkbox" id="sort" className="ml-2"/>
-			</label>
-			<button
-				className="bg-[#ef233c] h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors"
-				onClick={resetPlayers}
-			>
-				Reset
-			</button>
-			<button className="bg-[#274c77] h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors">New</button>
-			<button 
-			className="bg-[#274c77] h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors"
-			onClick={openNewPlayerModal}
-			>
-				Add
-			</button>
-		</div>
+		<NavBar 
+			resetPlayers={resetPlayers}
+			handleNewClick={handleNewClick}
+			openNewPlayerModal={openNewPlayerModal}
+		/>
 
-		<table className="w-full mt-4">
-			<thead className="border-b-2 border-t-2 border-blue-50">
-				<tr>
-					<th className="text-left text-lg p-2 w-[60%]">Name</th>
-					<th className="text-lg p-2 text-center">Points</th>
-					<th className="text-lg p-2 text-center">Phase</th>
-				</tr>
-			</thead>
-			<tbody>
-				{playersElements}
-			</tbody>
-		</table>
+		<Table 
+			playersElements={playersElements}
+		/>
 
-		{isNewPlayerModal ? 
-			<div className="fixed inset-0 h-full flex items-center justify-center bg-slate-500/70">
-				<div className="bg-red-50 p-5">
-					<label htmlFor="playerName" className="block">
-						Player name
-						<input 
-							type="text" 
-							id="playerName"
-							className="block mt-2"
-							ref={nameInputRef}
-							value={playerName}
-							onChange={handleNameChange}
-						/>
-					</label>
-					<div className="flex mt-5 justify-between">
-						<button 
-						className="bg-[#ef233c] h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors p-4"
-						onClick={closeNewPlayerModal}
-						>Cancel</button>
-						<button 
-						className="bg-[#274c77] h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors p-4"
-						onClick={() => addNewPlayer(playerName)}
-						>Add Player</button>
-					</div>
-				</div>
-			</div> : ''}
+		{isNewPlayerModal ?
+			<NewPlayerModal 
+				nameInputRef={nameInputRef}
+				playerName={playerName}
+				handleNameChange={handleNameChange}
+				closeNewPlayerModal={closeNewPlayerModal}
+				addNewPlayer={addNewPlayer}
+			/> : ''}
 		
 		{isEndOfRoundModal ? <EndOfRoundModal 
 			players={players}
@@ -222,13 +231,17 @@ const App = () => {
 			players={players}
 			closeEditPlayerModal={closeEditPlayerModal}
 			id={playerId}
-			// pointsInputRef={pointsInputRef}
 			handlePointChange={handlePointChange}
 			playerPoints={playerPointsInput}
 			updatePlayerInfo={updatePlayerInfo}
-			// completePhaseCheck={completePhaseCheck}
 			handleCompletePhase={handleCompletePhase}
 		/> : ''}
+
+		{isGameEnd ? <WinnerModal 
+				winner={winner[0]}
+				players={players}
+				closeWinnerModal={closeWinnerModal}
+			/> : ''}
 	</>
   );
 }

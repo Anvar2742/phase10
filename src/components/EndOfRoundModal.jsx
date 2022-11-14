@@ -3,9 +3,11 @@ const EndOfRoundModal = ({players, closeEndOfRoundModal, id, pointsInputRef, han
 		<div className="fixed inset-0 h-full flex items-center justify-center bg-slate-500/70">
 			<div className="bg-red-50 p-5">
 				<h2 className="font-bold text-[28px]">End of round</h2>
-				{players.map(player => {
-					return player.id === id ? player.name : ''
-				})}
+				<h3 className="font-semibold text-[18px]">
+					{players.map(player => {
+						return player.id === id ? player.name : ''
+					})}
+				</h3>
 				<label htmlFor="playerPoints" className="block">
 					Player Points
 					<input 
@@ -15,6 +17,7 @@ const EndOfRoundModal = ({players, closeEndOfRoundModal, id, pointsInputRef, han
 						ref={pointsInputRef}
 						value={playerPoints}
 						onChange={handlePointChange}
+						onKeyDown={handlePointChange}
 					/>
 				</label>
 				<label htmlFor="completePhase" className="border-[#274c77] border-2 h-10 flex justify-center items-center text-[#333] cursor-pointer hover:border-[#14213d] transition-colors mt-4">
@@ -35,7 +38,7 @@ const EndOfRoundModal = ({players, closeEndOfRoundModal, id, pointsInputRef, han
 					<button 
 					className="bg-[#274c77] h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors p-4"
 					onClick={() => updatePlayerInfo(id)}
-					>Oke</button>
+					>Okay</button>
 				</div>
 			</div>
 		</div>
