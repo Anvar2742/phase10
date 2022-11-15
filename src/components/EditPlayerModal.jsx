@@ -1,11 +1,9 @@
-const EditPlayerModal = ({players, closeEditPlayerModal, id, editPlayerInfo, completePhaseCheck, handleCompletePhase, playerTotalPointsInput, handleTotalPointChange, totalPointsInputRef}) => {
+const EditPlayerModal = ({handleSelecPhase, closeEditPlayerModal, currentPlayer, editPlayerInfo, completePhaseCheck, handleCompletePhase, playerTotalPointsInput, handleTotalPointChange, totalPointsInputRef, phases, currentPlayerPhase}) => {
 	return (
 		<div className="fixed inset-0 h-full flex items-center justify-center bg-slate-500/70">
 			<div className="bg-red-50 p-5">
 				<h2 className="font-bold text-[28px]">Update player info</h2>
-				{players.map(player => {
-					return player.id === id ? player.name : ''
-				})}
+				{currentPlayer.name}
 				<label htmlFor="playerTotalPoints" className="block">
 					Player Points
 					<input 
@@ -17,6 +15,27 @@ const EditPlayerModal = ({players, closeEditPlayerModal, id, editPlayerInfo, com
 						onChange={handleTotalPointChange}
 						onKeyDown={handleTotalPointChange}
 					/>
+				</label>
+				<label htmlFor="allPhasesSelect" className="block mt-4">
+					Player Points
+					<select 
+						name="allPhasesSelect" 
+						id="allPhasesSelect"
+						className="block p-2 mt-2 text-sm w-full"
+						defaultValue={currentPlayerPhase}
+						onChange={() => handleSelecPhase(event, currentPlayer)}
+					>
+						{phases.map((phase, i) => {
+							return (
+								<option 
+									value={phase}
+									key={phase}
+								>
+									{phase} | phase {i+1}
+								</option>
+							)
+						})}
+					</select>
 				</label>
 				<label htmlFor="completePhase" className="border-[#274c77] border-2 h-10 flex justify-center items-center text-[#333] cursor-pointer hover:border-[#14213d] transition-colors mt-4">
 					Complete Phase?
@@ -36,7 +55,7 @@ const EditPlayerModal = ({players, closeEditPlayerModal, id, editPlayerInfo, com
 					>Cancel</button>
 					<button 
 					className="bg-[#274c77] h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors p-4"
-					onClick={() => editPlayerInfo(id)}
+					onClick={() => editPlayerInfo(currentPlayer.id)}
 					>Okay</button>
 				</div>
 			</div>

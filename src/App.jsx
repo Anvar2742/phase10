@@ -30,12 +30,13 @@ const App = () => {
 	const [playerName, setPlayerName] = useState('');
 	const [playerPointsInput, setPlayerPointsInput] = useState(0);
 	const [playerTotalPointsInput, setPlayerTotalPointsInput] = useState(0);
-	const [playerId, setPlayerId] = useState(null);
+	const [currentPlayer, setСurrentPlayer] = useState(null);
 	
 	const [phases, setPhases] = useState(localStorage.getItem('phases') ? JSON.parse(localStorage.getItem('phases')) : []);
 	const [completePhaseCheck, setCompletePhaseCheck] = useState(false);
 	const [winner, setWinner] = useState(false);
 	const [isGameEnd, setIsGameEnd] = useState(false);
+	const [currentPlayerPhase, setCurrentPlayerPhase] = useState('');
 
 	const phasesArrayCopy = [...phasesArray];
 	
@@ -102,8 +103,9 @@ const App = () => {
 				totalPointsInputRef.current.focus();
 				totalPointsInputRef.current.select();
 			}, 100);
-			setPlayerId(currentPlayer.id);
+			setСurrentPlayer(currentPlayer);
 			setPlayerTotalPointsInput(currentPlayer.points);
+			setCurrentPlayerPhase(phases[currentPlayer.phase-1]);
 		} else if(removeBtnRef.current === event.target) {
 			setPlayers(prevPlayers => {
 				return prevPlayers.filter(player => {
@@ -116,7 +118,7 @@ const App = () => {
 				pointsInputRef.current.focus();
 				pointsInputRef.current.select();
 			}, 100);
-			setPlayerId(currentPlayer.id);
+			setСurrentPlayer(currentPlayer);
 		}
 	}
 
@@ -214,7 +216,7 @@ const App = () => {
 					return {
 						...player,
 						points: playerTotalPointsInput,
-						phase: completePhaseCheck ? player.phase + 1 : player.phase
+						phase: completePhaseCheck ? player.phase + 1 : phases.indexOf(currentPlayerPhase)+1
 					}
 				} else {
 					return player
@@ -246,6 +248,10 @@ const App = () => {
 		setPlayers([]);
 		setIsAreYouSureModal(false);
 		openNewPlayerModal();
+	}
+
+	function handleSelecPhase(event) {
+		setCurrentPlayerPhase(event.target.value);
 	}
 
 
@@ -297,7 +303,7 @@ const App = () => {
 		{isEndOfRoundModal ? <EndOfRoundModal 
 			players={players}
 			closeEndOfRoundModal={closeEndOfRoundModal}
-			id={playerId}
+			currentPlayer={currentPlayer}
 			pointsInputRef={pointsInputRef}
 			handlePointChange={handlePointChange}
 			playerPoints={playerPointsInput}
@@ -309,12 +315,15 @@ const App = () => {
 		{isEditPlayerModal ? <EditPlayerModal 
 			players={players}
 			closeEditPlayerModal={closeEditPlayerModal}
-			id={playerId}
+			currentPlayer={currentPlayer}
 			handleTotalPointChange={handleTotalPointChange}
 			editPlayerInfo={editPlayerInfo}
 			handleCompletePhase={handleCompletePhase}
 			playerTotalPointsInput={playerTotalPointsInput}
 			totalPointsInputRef={totalPointsInputRef}
+			phases={phases}
+			currentPlayerPhase={currentPlayerPhase}
+			handleSelecPhase={handleSelecPhase}
 		/> : ''}
 
 		{isGameEnd ? <WinnerModal 

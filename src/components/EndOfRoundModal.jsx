@@ -1,11 +1,11 @@
-const EndOfRoundModal = ({players, closeEndOfRoundModal, id, pointsInputRef, handlePointChange, playerPoints, updatePlayerInfo, completePhaseCheck, handleCompletePhase}) => {
+const EndOfRoundModal = ({players, closeEndOfRoundModal, currentPlayer, pointsInputRef, handlePointChange, playerPoints, updatePlayerInfo, completePhaseCheck, handleCompletePhase}) => {
 	return (
 		<div className="fixed inset-0 h-full flex items-center justify-center bg-slate-500/70">
 			<div className="bg-red-50 p-5">
 				<h2 className="font-bold text-[28px]">End of round</h2>
 				<h3 className="font-semibold text-[18px]">
 					{players.map(player => {
-						return player.id === id ? player.name : ''
+						return player.id === currentPlayer ? player.name : ''
 					})}
 				</h3>
 				<label htmlFor="playerPoints" className="block">
@@ -37,7 +37,7 @@ const EndOfRoundModal = ({players, closeEndOfRoundModal, id, pointsInputRef, han
 					>Cancel</button>
 					<button 
 					className="bg-[#274c77] h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors p-4"
-					onClick={() => updatePlayerInfo(id)}
+					onClick={() => updatePlayerInfo(currentPlayer.id)}
 					>Okay</button>
 				</div>
 			</div>

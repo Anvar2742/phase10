@@ -13,7 +13,7 @@ const WinnerModal = ({players, closeWinnerModal, winner}) => {
                     </h2>
                     {playersWithoutWinner.map((player, i) => {
                         return (
-                            <div className="flex justify-between border-b-2 border-black">
+                            <div className="flex justify-between border-b-2 border-black" key={player.id}>
                                 <h3>{player.name}</h3>
                                 <span>{i+2} Place</span>
                             </div>
