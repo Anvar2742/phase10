@@ -13,7 +13,7 @@ const EndOfRoundModal = ({players, closeEndOfRoundModal, id, pointsInputRef, han
 					<input 
 						type="number" 
 						id="playerPoints"
-						className="block mt-2"
+						className="block mt-2 p-2"
 						ref={pointsInputRef}
 						value={playerPoints}
 						onChange={handlePointChange}

@@ -10,25 +10,33 @@ import NavBar from "./components/NavBar";
 import Table from "./components/Table";
 import {shuffle} from "./assets";
 import { max, min, phasesArray } from "./assets/constants";
+import AreYourSureModal from "./components/AreYourSureModal";
+import ErrorMsg from "./components/ErrorMsg";
 
 
 const App = () => {
 	const nameInputRef = useRef(null);
 	const pointsInputRef = useRef(null);
+	const totalPointsInputRef = useRef(null);
 	const [players, setPlayers] = useState(localStorage.getItem('players') ? JSON.parse(localStorage.getItem('players')) : []);
 	const [playersElements, setPlayersElements] = useState();
 	const [isNewPlayerModal, setIsNewPlayerModal] = useState(false);
 	const [isEndOfRoundModal, setIsEndOfRoundModal] = useState(false);
-	const [isWinnerModal, setIsWinnerModal] = useState(false);
+	const [isAreYouSureModal, setIsAreYouSureModal] = useState(false);
+	const [isNoPlayersMsg, setIsNoPlayersMsg] = useState(false);
+	const [areYouSureAction, setAreYouSureAction] = useState('');
 	const [isEditPlayerModal, setIsEditPlayerModal] = useState(false);
 	const [playerName, setPlayerName] = useState('');
 	const [playerPointsInput, setPlayerPointsInput] = useState(0);
+	const [playerTotalPointsInput, setPlayerTotalPointsInput] = useState(0);
 	const [playerId, setPlayerId] = useState(null);
 	
 	const [phases, setPhases] = useState(localStorage.getItem('phases') ? JSON.parse(localStorage.getItem('phases')) : []);
 	const [completePhaseCheck, setCompletePhaseCheck] = useState(false);
 	const [winner, setWinner] = useState(false);
 	const [isGameEnd, setIsGameEnd] = useState(false);
+
+	const phasesArrayCopy = [...phasesArray];
 	
 
 	/* Handlers */
@@ -51,14 +59,25 @@ const App = () => {
 			setPlayerPointsInput(val);
 		}
 	}
-	
+
+	function handleTotalPointChange(event) {
+		if (event.keyCode === 8 && (+(event.target.value) === 0 || event.target.value.length === 1)) {
+			setPlayerTotalPointsInput('');
+		} else if (window.getSelection().toString() === event.target.value && event.keyCode === 8) {
+			setPlayerTotalPointsInput('');
+		} else if (event.target.value.length) {
+			let val = Math.max(min, Math.min(max, Number(event.target.value))).toString()
+			const indexOf = val.indexOf('0')
+			if (indexOf === 0 && val.length > 1) {
+				val = val.slice(indexOf, indexOf);
+			}
+
+			setPlayerTotalPointsInput(val);
+		}
+	}
 
 	function handleCompletePhase() {
 		setCompletePhaseCheck(prevCompletePhaseCheck => !prevCompletePhaseCheck);
-	}
-
-	function handleNewClick() {
-		setPhases(() => shuffle(phasesArray));
 	}
 
 
@@ -75,15 +94,16 @@ const App = () => {
 		setIsNewPlayerModal(false);
 	}
 	
-	function openEditPlayerModals(event, id, playerRef, editBtnRef, removeBtnRef) {
+	function openEditPlayerModals(event, currentPlayer, playerRef, editBtnRef, removeBtnRef) {
 		if (editBtnRef.current === event.target) {
 			setIsEditPlayerModal(true);
 			// Focus and select input in edit player modal
-			// setTimeout(() => {
-			// 	pointsInputRef.current.focus();
-			// 	pointsInputRef.current.select();
-			// }, 100);
-			setPlayerId(id);
+			setTimeout(() => {
+				totalPointsInputRef.current.focus();
+				totalPointsInputRef.current.select();
+			}, 100);
+			setPlayerId(currentPlayer.id);
+			setPlayerTotalPointsInput(currentPlayer.points);
 			// return;
 		} else if(removeBtnRef.current === event.target) {
 			setPlayers(prevPlayers => {
@@ -97,7 +117,7 @@ const App = () => {
 				pointsInputRef.current.focus();
 				pointsInputRef.current.select();
 			}, 100);
-			setPlayerId(id);
+			setPlayerId(currentPlayer.id);
 		}
 	}
 
@@ -109,8 +129,26 @@ const App = () => {
 	function closeEditPlayerModal() {
 		setIsEditPlayerModal(false);
 	}
+
 	function closeWinnerModal() {
 		setIsGameEnd(false);
+	}
+
+	function openAreYouSureModal(event, resetBtnRef, newBtnRef) {
+		if (players.length) {
+			if (event.target === resetBtnRef.current) {
+				setAreYouSureAction('reset');
+			} else if (event.target === newBtnRef.current) {
+				setAreYouSureAction('new');
+			}
+			setIsAreYouSureModal(true);
+		} else {
+			setIsNoPlayersMsg(true);
+		}
+	}
+
+	function closeAreYouSureModal() {
+		setIsAreYouSureModal(false);
 	}
 
 
@@ -131,13 +169,14 @@ const App = () => {
 		setPlayerName('');
 		setIsNewPlayerModal(false);
 		if (players.length === 0) {
-			setPhases(() => shuffle(phasesArray));
+			setPhases(() => shuffle(phasesArrayCopy));
 		}
 	}
 
 	function resetPlayers() {
 		setPlayers([]);
 		setWinner(false);
+		closeAreYouSureModal(false);
 	}
 
 	function updatePlayerInfo(id) {
@@ -160,6 +199,26 @@ const App = () => {
 		setCompletePhaseCheck(false);
 	}
 
+	function editPlayerInfo(id) {
+		setPlayers(prevPlayers => {
+			return prevPlayers.map(player => {
+				if (player.id === id) {
+					return {
+						...player,
+						points: playerTotalPointsInput,
+						phase: completePhaseCheck ? player.phase + 1 : player.phase
+					}
+				} else {
+					return player
+				}
+			})
+		})
+
+		setPlayerTotalPointsInput(0);
+		setCompletePhaseCheck(false);
+		setIsEditPlayerModal(false);
+	}
+
 	function createPlayerElements() {
 		setPlayersElements(players.length ? 
 			players.map(player => {
@@ -174,6 +233,13 @@ const App = () => {
 			}) : <tr className="text-center w-full"><td className="p-2 font-semibold text-[28px]" colSpan='100%'>No players</td></tr>)
 	}
 
+	function newGame() {
+		setPhases(() => shuffle(phasesArrayCopy));
+		setPlayers([]);
+		setIsAreYouSureModal(false);
+		openNewPlayerModal();
+	}
+
 
 
 	/* UseEffects */
@@ -185,7 +251,7 @@ const App = () => {
 
 	useEffect(() => {
 		localStorage.setItem('phases', JSON.stringify(phases));
-		createPlayerElements()
+		createPlayerElements();
 	}, [phases])
 
 	useEffect(() => {
@@ -194,11 +260,16 @@ const App = () => {
 		}
 	}, [winner])
 
+	useEffect(() => {
+		setTimeout(() => {
+			setIsNoPlayersMsg(false);
+		}, 3000);
+	}, [isNoPlayersMsg])
+
   return (
 	<>
 		<NavBar 
-			resetPlayers={resetPlayers}
-			handleNewClick={handleNewClick}
+			openAreYouSureModal={openAreYouSureModal}
 			openNewPlayerModal={openNewPlayerModal}
 		/>
 
@@ -231,10 +302,11 @@ const App = () => {
 			players={players}
 			closeEditPlayerModal={closeEditPlayerModal}
 			id={playerId}
-			handlePointChange={handlePointChange}
-			playerPoints={playerPointsInput}
-			updatePlayerInfo={updatePlayerInfo}
+			handleTotalPointChange={handleTotalPointChange}
+			editPlayerInfo={editPlayerInfo}
 			handleCompletePhase={handleCompletePhase}
+			playerTotalPointsInput={playerTotalPointsInput}
+			totalPointsInputRef={totalPointsInputRef}
 		/> : ''}
 
 		{isGameEnd ? <WinnerModal 
@@ -242,6 +314,18 @@ const App = () => {
 				players={players}
 				closeWinnerModal={closeWinnerModal}
 			/> : ''}
+
+		{isAreYouSureModal ? 
+		<AreYourSureModal 
+			closeAreYouSureModal={closeAreYouSureModal}
+			areYouSureAction={areYouSureAction}
+			resetPlayers={resetPlayers}
+			newGame={newGame}
+		/> : ''}
+
+		<ErrorMsg 
+			isNoPlayersMsg={isNoPlayersMsg}
+		/>
 	</>
   );
 }

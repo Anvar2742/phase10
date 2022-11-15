@@ -16,7 +16,7 @@ export function shuffle(array) {
 	return array;
 }
 
-export function sortArray(array) {
+export function sortArrayAsc(array) {
 	for (let i = 0; i < array.length - 1; i++) {
 		const el = array[i];
 		const elNext = array[i + 1];

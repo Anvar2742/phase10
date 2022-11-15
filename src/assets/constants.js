@@ -1,2 +1,3 @@
 export const phasesArray = ['set of 3 , even set of 3', '5 set of 2', 'set of 4, odd set of 4', 'odd set of 3, even of 4', 'set of 3, 4 cards over 9', '9 cards over 7', 'color run of 4, 4 cards under 4', 'odd of 4, color run of 5', 'run of 4, 5 cards over 9', '2 sets of 2, color run of 4', '4 of 1 color, 4 even of 1 color', 'run of 9', '8 of 1 color', 'run of 4, 5 even of 1 color', '2 sets of 2, color run of 4', '6 of 1 color, 3 cards over 10', 'run of 7', '2 sets of 4', '4 odd of 1 color, run of 4'];
 export const [min, max] = [0, 1000];
+// [{"id":"OCaIKoYPajCMxizThVpTX","name":"Anvar","points":150,"phase":6},{"id":"yfduHjrEuPeipVn3nFk3N","name":"Lera","points":170,"phase":6}]

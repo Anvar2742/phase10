@@ -1,8 +1,8 @@
 import ReactConfetti from "react-confetti";
-import {sortArray} from '../assets/index'
+import {sortArrayAsc} from '../assets/index'
 
 const WinnerModal = ({players, closeWinnerModal, winner}) => {
-    const playersWithoutWinner = sortArray(players.filter(player => !(player.id === winner.id)));
+    const playersWithoutWinner = sortArrayAsc(players.filter(player => !(player.id === winner.id)));
     
 	return (
 		<>

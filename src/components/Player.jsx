@@ -9,7 +9,7 @@ const Player = ({player, phases, openEditPlayerModals}) => {
         <tr 
             className="border-bottom border-b-2 border-blue-50"
             key={player.id}
-            onClick={() => openEditPlayerModals(event, player.id, playerWrapRef, editPlayerBtnRef, removeBtnRef)}
+            onClick={() => openEditPlayerModals(event, player, playerWrapRef, editPlayerBtnRef, removeBtnRef)}
             ref={playerWrapRef}
         >
             <td className="p-2">
