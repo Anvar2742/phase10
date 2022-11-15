@@ -23,7 +23,8 @@ const App = () => {
 	const [isNewPlayerModal, setIsNewPlayerModal] = useState(false);
 	const [isEndOfRoundModal, setIsEndOfRoundModal] = useState(false);
 	const [isAreYouSureModal, setIsAreYouSureModal] = useState(false);
-	const [isNoPlayersMsg, setIsNoPlayersMsg] = useState(false);
+	const [isErrorMsg, setIsErrorMsg] = useState(false);
+	const [errorMessage, setErrorMessage] = useState(false);
 	const [areYouSureAction, setAreYouSureAction] = useState('');
 	const [isEditPlayerModal, setIsEditPlayerModal] = useState(false);
 	const [playerName, setPlayerName] = useState('');
@@ -97,18 +98,16 @@ const App = () => {
 	function openEditPlayerModals(event, currentPlayer, playerRef, editBtnRef, removeBtnRef) {
 		if (editBtnRef.current === event.target) {
 			setIsEditPlayerModal(true);
-			// Focus and select input in edit player modal
 			setTimeout(() => {
 				totalPointsInputRef.current.focus();
 				totalPointsInputRef.current.select();
 			}, 100);
 			setPlayerId(currentPlayer.id);
 			setPlayerTotalPointsInput(currentPlayer.points);
-			// return;
 		} else if(removeBtnRef.current === event.target) {
 			setPlayers(prevPlayers => {
 				return prevPlayers.filter(player => {
-					return player.id !== id
+					return player.id !== currentPlayer.id
 				})
 			})
 		} else if (event.target === playerRef.current || playerRef.current.contains(event.target)) {
@@ -143,7 +142,8 @@ const App = () => {
 			}
 			setIsAreYouSureModal(true);
 		} else {
-			setIsNoPlayersMsg(true);
+			setIsErrorMsg(true);
+			setErrorMessage('No players');
 		}
 	}
 
@@ -155,6 +155,14 @@ const App = () => {
 	
 	/* Player functions */
 	function addNewPlayer(name) {
+		const nameExists = players.findIndex((player) => player.name.toLowerCase() === name.toLowerCase())
+		
+		if (nameExists !== -1) {
+			setIsErrorMsg(true);
+			setErrorMessage('Name taken');
+			return;
+		}
+		
 		setPlayers(prevPlayers => {
 			return [
 				...prevPlayers,
@@ -262,9 +270,9 @@ const App = () => {
 
 	useEffect(() => {
 		setTimeout(() => {
-			setIsNoPlayersMsg(false);
+			setIsErrorMsg(false);
 		}, 3000);
-	}, [isNoPlayersMsg])
+	}, [isErrorMsg])
 
   return (
 	<>
@@ -324,7 +332,8 @@ const App = () => {
 		/> : ''}
 
 		<ErrorMsg 
-			isNoPlayersMsg={isNoPlayersMsg}
+			isErrorMsg={isErrorMsg}
+			errorMessage={errorMessage}
 		/>
 	</>
   );
