@@ -1,12 +1,19 @@
-const AreYourSureModal = ({closeAreYouSureModal, areYouSureAction, resetPlayers, newGame}) => {
+const AreYourSureModal = ({closeAreYouSureModal, areYouSureAction, resetPlayers, newGame, currentPlayer, deletePlayer}) => {
     let areYourSureFunction;
     let areYouSureMsg;
+    let areYouSureBtn;
     if (areYouSureAction === 'reset') {
         areYourSureFunction = resetPlayers;
         areYouSureMsg = 'you want to reset the game';
+        areYouSureBtn = 'Reset';
     } else if (areYouSureAction === 'new') {
         areYourSureFunction = newGame;
         areYouSureMsg = 'you want to start a new game';
+        areYouSureBtn = 'New Game';
+    } else if (areYouSureAction === 'removePlayer') {
+        areYourSureFunction = deletePlayer;
+        areYouSureMsg = `you want to delete ${currentPlayer.name}`;
+        areYouSureBtn = `Remove ${currentPlayer.name}`;
     }
 
     return (
@@ -21,7 +28,7 @@ const AreYourSureModal = ({closeAreYouSureModal, areYouSureAction, resetPlayers,
                     <button 
                         className="bg-[#274c77] h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors p-4 capitalize"
                         onClick={areYourSureFunction}
-                    >{areYouSureAction}</button>
+                    >{areYouSureBtn}</button>
                 </div>
             </div>
         </div>

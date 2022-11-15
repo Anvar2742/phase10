@@ -107,11 +107,9 @@ const App = () => {
 			setPlayerTotalPointsInput(currentPlayer.points);
 			setCurrentPlayerPhase(phases[currentPlayer.phase-1]);
 		} else if(removeBtnRef.current === event.target) {
-			setPlayers(prevPlayers => {
-				return prevPlayers.filter(player => {
-					return player.id !== currentPlayer.id
-				})
-			})
+			setIsAreYouSureModal(true);
+			setAreYouSureAction('removePlayer');
+			setСurrentPlayer(currentPlayer);
 		} else if (event.target === playerRef.current || playerRef.current.contains(event.target)) {
 			setIsEndOfRoundModal(true);
 			setTimeout(() => {
@@ -254,6 +252,14 @@ const App = () => {
 		setCurrentPlayerPhase(event.target.value);
 	}
 
+	function deletePlayer() {
+		setPlayers(prevPlayers => {
+			return prevPlayers.filter(player => {
+				return player.id !== currentPlayer.id
+			})
+		})
+	}
+
 
 
 	/* UseEffects */
@@ -338,6 +344,8 @@ const App = () => {
 			areYouSureAction={areYouSureAction}
 			resetPlayers={resetPlayers}
 			newGame={newGame}
+			currentPlayer={currentPlayer}
+			deletePlayer={deletePlayer}
 		/> : ''}
 
 		<ErrorMsg 

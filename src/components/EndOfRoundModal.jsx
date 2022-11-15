@@ -4,9 +4,7 @@ const EndOfRoundModal = ({players, closeEndOfRoundModal, currentPlayer, pointsIn
 			<div className="bg-red-50 p-5">
 				<h2 className="font-bold text-[28px]">End of round</h2>
 				<h3 className="font-semibold text-[18px]">
-					{players.map(player => {
-						return player.id === currentPlayer ? player.name : ''
-					})}
+					{currentPlayer.name}
 				</h3>
 				<label htmlFor="playerPoints" className="block">
 					Player Points
