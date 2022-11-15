@@ -258,6 +258,8 @@ const App = () => {
 				return player.id !== currentPlayer.id
 			})
 		})
+
+		setIsAreYouSureModal(false);
 	}
 
 
