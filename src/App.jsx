@@ -12,6 +12,7 @@ import {shuffle} from "./assets";
 import { max, min, phasesArray } from "./assets/constants";
 import AreYourSureModal from "./components/AreYourSureModal";
 import ErrorMsg from "./components/ErrorMsg";
+import {default as bg} from './assets/bg.jpg';
 
 
 const App = () => {
@@ -288,73 +289,81 @@ const App = () => {
 		}, 3000);
 	}, [isErrorMsg])
 
+	useEffect(() => {
+		// document.documentElement.style.setProperty('--bodyColor', 'red');
+	}, [])
+
   return (
-	<>
-		<NavBar 
-			openAreYouSureModal={openAreYouSureModal}
-			openNewPlayerModal={openNewPlayerModal}
-		/>
+	<main 
+		style={{backgroundImage: `url('${bg}')`}}
+		className="h-screen bg-no-repeat bg-cover bg-center">
+		<div className="max-w-sm mx-auto bg-[#e2e2e2] overflow-y-hidden max-h-[100vh]">
+			<NavBar 
+				openAreYouSureModal={openAreYouSureModal}
+				openNewPlayerModal={openNewPlayerModal}
+			/>
 
-		<Table 
-			playersElements={playersElements}
-		/>
+			<Table 
+				playersElements={playersElements}
+			/>
 
-		{isNewPlayerModal ?
-			<NewPlayerModal 
-				nameInputRef={nameInputRef}
-				playerName={playerName}
-				handleNameChange={handleNameChange}
-				closeNewPlayerModal={closeNewPlayerModal}
-				addNewPlayer={addNewPlayer}
-			/> : ''}
-		
-		{isEndOfRoundModal ? <EndOfRoundModal 
-			players={players}
-			closeEndOfRoundModal={closeEndOfRoundModal}
-			currentPlayer={currentPlayer}
-			pointsInputRef={pointsInputRef}
-			handlePointChange={handlePointChange}
-			playerPoints={playerPointsInput}
-			updatePlayerInfo={updatePlayerInfo}
-			completePhaseCheck={completePhaseCheck}
-			handleCompletePhase={handleCompletePhase}
-		/> : ''}
-
-		{isEditPlayerModal ? <EditPlayerModal 
-			players={players}
-			closeEditPlayerModal={closeEditPlayerModal}
-			currentPlayer={currentPlayer}
-			handleTotalPointChange={handleTotalPointChange}
-			editPlayerInfo={editPlayerInfo}
-			handleCompletePhase={handleCompletePhase}
-			playerTotalPointsInput={playerTotalPointsInput}
-			totalPointsInputRef={totalPointsInputRef}
-			phases={phases}
-			currentPlayerPhase={currentPlayerPhase}
-			handleSelecPhase={handleSelecPhase}
-		/> : ''}
-
-		{isGameEnd ? <WinnerModal 
-				winner={winner[0]}
+			{isNewPlayerModal ?
+				<NewPlayerModal 
+					nameInputRef={nameInputRef}
+					playerName={playerName}
+					handleNameChange={handleNameChange}
+					closeNewPlayerModal={closeNewPlayerModal}
+					addNewPlayer={addNewPlayer}
+				/> : ''}
+			
+			{isEndOfRoundModal ? <EndOfRoundModal 
 				players={players}
-				closeWinnerModal={closeWinnerModal}
+				closeEndOfRoundModal={closeEndOfRoundModal}
+				currentPlayer={currentPlayer}
+				pointsInputRef={pointsInputRef}
+				handlePointChange={handlePointChange}
+				playerPoints={playerPointsInput}
+				updatePlayerInfo={updatePlayerInfo}
+				completePhaseCheck={completePhaseCheck}
+				handleCompletePhase={handleCompletePhase}
 			/> : ''}
 
-		{isAreYouSureModal ? 
-		<AreYourSureModal 
-			closeAreYouSureModal={closeAreYouSureModal}
-			areYouSureAction={areYouSureAction}
-			resetPlayers={resetPlayers}
-			newGame={newGame}
-			currentPlayer={currentPlayer}
-			deletePlayer={deletePlayer}
-		/> : ''}
+			{isEditPlayerModal ? <EditPlayerModal 
+				players={players}
+				closeEditPlayerModal={closeEditPlayerModal}
+				currentPlayer={currentPlayer}
+				handleTotalPointChange={handleTotalPointChange}
+				editPlayerInfo={editPlayerInfo}
+				handleCompletePhase={handleCompletePhase}
+				playerTotalPointsInput={playerTotalPointsInput}
+				totalPointsInputRef={totalPointsInputRef}
+				phases={phases}
+				currentPlayerPhase={currentPlayerPhase}
+				handleSelecPhase={handleSelecPhase}
+			/> : ''}
 
-		<ErrorMsg 
-			isErrorMsg={isErrorMsg}
-			errorMessage={errorMessage}
-		/>
-	</>
+			{isGameEnd ? <WinnerModal 
+					winner={winner[0]}
+					players={players}
+					closeWinnerModal={closeWinnerModal}
+				/> : ''}
+
+			{isAreYouSureModal ? 
+			<AreYourSureModal 
+				closeAreYouSureModal={closeAreYouSureModal}
+				areYouSureAction={areYouSureAction}
+				resetPlayers={resetPlayers}
+				newGame={newGame}
+				currentPlayer={currentPlayer}
+				deletePlayer={deletePlayer}
+			/> : ''}
+
+			<ErrorMsg 
+				isErrorMsg={isErrorMsg}
+				errorMessage={errorMessage}
+			/>
+		</div>
+	</main>
   );
 }
 

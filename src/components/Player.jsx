@@ -25,7 +25,7 @@ const Player = ({player, phases, openEditPlayerModals}) => {
                         ref={removeBtnRef}
                     >x</button>
                 </td>
-                <td className="text-center w-[18%] pl-2 pr-2">
+                <td className="text-center w-[15%] pl-2 pr-2">
                     <button className="w-full rounded leading-[1] flex justify-center items-center text-white cursor-pointer transition-colors"
                         ref={editPlayerBtnRef}
                     >
