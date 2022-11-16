@@ -1,6 +1,6 @@
 const EndOfRoundModal = ({players, closeEndOfRoundModal, currentPlayer, pointsInputRef, handlePointChange, playerPoints, updatePlayerInfo, completePhaseCheck, handleCompletePhase}) => {
 	return (
-		<div className="fixed inset-0 h-full flex items-center justify-center bg-slate-500/70">
+		<div className="fixed inset-0 z-10 h-full flex items-center justify-center bg-slate-500/70">
 			<div className="bg-red-50 p-5">
 				<h2 className="font-bold text-[28px]">End of round</h2>
 				<h3 className="font-semibold text-[18px]">

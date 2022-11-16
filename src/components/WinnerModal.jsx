@@ -6,7 +6,7 @@ const WinnerModal = ({players, closeWinnerModal, winner}) => {
     
 	return (
 		<>
-            <div className="fixed inset-0 h-full flex items-center justify-center bg-slate-500/70">
+            <div className="fixed inset-0 z-10 h-full flex items-center justify-center bg-slate-500/70">
                 <div className="bg-red-50 p-5">
                     <h2 className="font-bold text-[28px]">
                         <span className="capitalize">{winner?.name}</span> wins!

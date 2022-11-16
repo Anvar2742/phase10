@@ -136,9 +136,9 @@ const App = () => {
 
 	function openAreYouSureModal(event, resetBtnRef, newBtnRef) {
 		if (players.length) {
-			if (event.target === resetBtnRef.current) {
+			if (event.target === resetBtnRef.current || resetBtnRef.current.contains(event.target)) {
 				setAreYouSureAction('reset');
-			} else if (event.target === newBtnRef.current) {
+			} else if (event.target === newBtnRef.current || newBtnRef.current.contains(event.target)) {
 				setAreYouSureAction('new');
 			}
 			setIsAreYouSureModal(true);

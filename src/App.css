@@ -1,7 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+
+button {
+    font-family: 'Fredoka One', cursive;
+}
+.btn {
+    letter-spacing: 2px;
+    text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.15);
+}
 ::-webkit-scrollbar {
     width: 6px;
 }
@@ -21,3 +30,88 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+tbody {
+    display: block;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+}
+thead, tbody tr {
+    display: table;
+    width: 100%;
+}
+thead {
+    width: calc( 100% - 6px );
+}
+
+.round-btn {
+    position: relative;
+    border-radius: 22px;
+    border: 3px solid #FFFFFF;
+    text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.15);
+    font-size: 18px;
+    background: #4ec407;
+    overflow: hidden;
+}
+
+.round-btn:after {
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: 2;
+    background: #67EB00;
+    width: 100%;
+    height: calc(100% - 4px);
+    top: -1px;
+    border-radius: 33px;
+}
+
+.round-btn:before {
+    content: '';
+    display: block;
+    width: 60%;
+    height: 100%;
+    position: absolute;
+    background: #A6F208;
+    opacity: 0.5;
+    left: 0;
+    -webkit-clip-path: polygon(0 0, 65% 0, 100% 100%, 0% 100%);
+    clip-path: polygon(0 0, 65% 0, 100% 100%, 0% 100%);
+    z-index: 3;
+    border-top-left-radius: 33px;
+    border-bottom-left-radius: 33px;
+}
+
+.round-btn span {
+    z-index: 5;
+}
+
+.round-btn:active:after {
+    top: unset;
+}
+
+.red-btn {
+    background: #c01227;
+}
+
+.red-btn:before {
+    background: #f8455a;
+}
+
+.red-btn:after {
+    background: #ef233c;
+}
+
+
+.purple-btn {
+    background: #860dff;
+}
+
+.purple-btn:before {
+    background: #c284ff;
+}
+
+.purple-btn:after {
+    background: #B169FA;
+}
+

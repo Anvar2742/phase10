@@ -14,22 +14,24 @@ const Player = ({player, phases, openEditPlayerModals}) => {
                 onClick={() => openEditPlayerModals(event, player, playerWrapRef, editPlayerBtnRef, removeBtnRef)}
                 ref={playerWrapRef}
             >
-                <td className="p-2">
-                    <span className="block w-full capitalize font-semibold text-md">{player.name}</span>
+                <td className="p-2 w-[25%]">
+                    <span className="block w-full capitalize font-semibold text-md text-ellipsis max-w-[70px] overflow-hidden">{player.name}</span>
                     {/* <span className="block w-full text-sm">{phases[player.phase-1]}</span> */}
                 </td>
-                <td className="p-4 text-center">{player.points}</td>
-                <td className="p-4 text-center">{player.phase}</td>
-                <td className="text-center w-[8%] pr-2">
-                    <button className="w-full bg-[#ef233c] p-3 py-1 pb-2 rounded leading-[1] flex justify-center items-center text-white cursor-pointer transition-colors"
+                <td className="p-4 text-center w-[15%]">{player.points}</td>
+                <td className="p-4 text-center w-[15%]">{player.phase}</td>
+                <td className="text-center w-[10%]">
+                    <button className="red-btn round-btn w-full p-2 rounded leading-[1] flex justify-center items-center text-white cursor-pointer transition-colors"
                         ref={removeBtnRef}
-                    >x</button>
+                    >
+                        <span>x</span>
+                    </button>
                 </td>
-                <td className="text-center w-[15%] pl-2 pr-2">
-                    <button className="w-full rounded leading-[1] flex justify-center items-center text-white cursor-pointer transition-colors"
+                <td className="text-center w-[10%]">
+                    <button className="round-btn purple-btn w-full rounded leading-[1] flex justify-center items-center text-white cursor-pointer transition-colors"
                         ref={editPlayerBtnRef}
                     >
-                        <img src={editIcon} className="w-10 h-10"/>
+                        <img src={editIcon} className="w-[35px] h-[35px] z-10 p-2"/>
                     </button>
                 </td>
             </tr>

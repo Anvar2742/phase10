@@ -11,22 +11,27 @@ const NavBar = ({openAreYouSureModal, openNewPlayerModal}) => {
 				<input type="checkbox" id="sort" className="ml-2"/>
 			</label> */}
 			<button
-				className="bg-[rgb(239,35,60)] h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors"
-				onClick={() => openAreYouSureModal(event, resetBtnRef, resetBtnRef)}
+				className="red-btn round-btn h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors"
+				onClick={() => openAreYouSureModal(event, resetBtnRef, newBtnRef)}
 				ref={resetBtnRef}
 			>
-				Reset
+				<span>Reset</span>
 			</button>
 			<button 
-                className="bg-[#274c77] h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors"
+                className="round-btn green-btn btn h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors"
 				onClick={() => openAreYouSureModal(event, resetBtnRef, newBtnRef)}
 				ref={newBtnRef}
-			>New</button>
+			>
+				<span>New</span>
+			</button>
 			<button 
-                className="bg-[#274c77] h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors"
+                className="h-10 flex justify-center items-center 
+								text-white cursor-pointer transition-colors
+								tracking-[0.04em] round-btn green-btn
+								"
                 onClick={openNewPlayerModal}
 			>
-				Add
+				<span>Add</span>
 			</button>
 		</div>
     )

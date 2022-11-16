@@ -1,6 +1,6 @@
 const NewPlayerModal = ({nameInputRef, playerName, handleNameChange, closeNewPlayerModal, addNewPlayer}) => {
 	return (
-		<div className="fixed inset-0 h-full flex items-center justify-center bg-slate-500/70">
+		<div className="fixed inset-0 z-10 h-full flex items-center justify-center bg-slate-500/70">
             <div className="bg-red-50 p-5">
                 <label htmlFor="playerName" className="block">
                     Player name
