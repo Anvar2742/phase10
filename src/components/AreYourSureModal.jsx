@@ -18,17 +18,21 @@ const AreYourSureModal = ({closeAreYouSureModal, areYouSureAction, resetPlayers,
 
     return (
         <div className="fixed inset-0 z-10 h-full flex items-center justify-center bg-slate-500/70">
-            <div className="bg-red-50 p-5">
+            <div className="p-5 max-w-[300px] rounded-[21px] bg-white modal-style relative">
                 <h2 className="font-semibold text-[22px]">Are you sure {areYouSureMsg}?</h2>
                 <div className="flex mt-5 justify-between">
                     <button 
-                        className="bg-[#ef233c] h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors p-4"
+                        className="round-btn red-btn shadow-btn h-10 flex justify-center items-center text-white cursor-pointer transition-colors p-4"
                         onClick={closeAreYouSureModal}
-                    >Cancel</button>
+                    >
+                        <span>Cancel</span>
+                    </button>
                     <button 
-                        className="bg-[#274c77] h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors p-4 capitalize"
+                        className="round-btn open-btn shadow-btn flex justify-center items-center text-white cursor-pointer transition-colors px-4 capitalize"
                         onClick={areYourSureFunction}
-                    >{areYouSureBtn}</button>
+                    >
+                        <span>{areYouSureBtn}</span>
+                    </button>
                 </div>
             </div>
         </div>

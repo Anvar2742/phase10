@@ -295,9 +295,9 @@ const App = () => {
 
   return (
 	<main 
-		style={{backgroundImage: `url('${bg}')`}}
-		className="h-screen bg-no-repeat bg-cover bg-center">
-		<div className="max-w-sm mx-auto bg-[#e2e2e2] overflow-y-hidden max-h-[100vh]">
+		// style={{backgroundImage: `url('${bg}')`}}
+		className="h-screen bg-no-repeat bg-cover bg-center bg-radial-main py-[20px]">
+		<div className="max-w-sm mx-auto bg-white overflow-y-hidden py-2 h-full rounded-[22px]">
 			<NavBar 
 				openAreYouSureModal={openAreYouSureModal}
 				openNewPlayerModal={openNewPlayerModal}

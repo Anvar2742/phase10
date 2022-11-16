@@ -7,7 +7,7 @@ const WinnerModal = ({players, closeWinnerModal, winner}) => {
 	return (
 		<>
             <div className="fixed inset-0 z-10 h-full flex items-center justify-center bg-slate-500/70">
-                <div className="bg-red-50 p-5">
+                <div className="p-5 max-w-[300px] rounded-[21px] bg-white modal-style relative">
                     <h2 className="font-bold text-[28px]">
                         <span className="capitalize">{winner?.name}</span> wins!
                     </h2>
@@ -23,7 +23,9 @@ const WinnerModal = ({players, closeWinnerModal, winner}) => {
                         <button 
                             className="bg-[#ef233c] h-10 w-full flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors p-4"
                             onClick={closeWinnerModal}
-                        >Cancel</button>
+                        >
+						<span>Cancel</span>
+					</button>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 const EditPlayerModal = ({handleSelecPhase, closeEditPlayerModal, currentPlayer, editPlayerInfo, completePhaseCheck, handleCompletePhase, playerTotalPointsInput, handleTotalPointChange, totalPointsInputRef, phases, currentPlayerPhase}) => {
 	return (
 		<div className="fixed inset-0 z-10 h-full flex items-center justify-center bg-slate-500/70">
-			<div className="bg-red-50 p-5">
+			<div className="p-5 max-w-[300px] rounded-[21px] bg-white modal-style relative">
 				<h2 className="font-bold text-[28px]">Update player info</h2>
 				{currentPlayer.name}
 				<label htmlFor="playerTotalPoints" className="block">
@@ -9,7 +9,7 @@ const EditPlayerModal = ({handleSelecPhase, closeEditPlayerModal, currentPlayer,
 					<input 
 						type="number" 
 						id="playerTotalPoints"
-						className="block mt-2 w-full p-2"
+						className="block mt-2 p-2 w-full bg-[#C2FDFF] rounded-[31px] text-lg text-[#333]"
 						ref={totalPointsInputRef}
 						value={playerTotalPointsInput}
 						onChange={handleTotalPointChange}
@@ -37,12 +37,12 @@ const EditPlayerModal = ({handleSelecPhase, closeEditPlayerModal, currentPlayer,
 						})}
 					</select>
 				</label>
-				<label htmlFor="completePhase" className="border-[#274c77] border-2 h-10 flex justify-center items-center text-[#333] cursor-pointer hover:border-[#14213d] transition-colors mt-4">
+				<label htmlFor="completePhase" className="border-[#274c77] border-2 h-10 flex justify-center items-center text-[#333] cursor-pointer hover:border-[#14213d] transition-colors mt-4 rounded-[31px]">
 					Complete Phase?
 					<input 
 						type="checkbox" 
 						id="completePhase" 
-						className="ml-2"
+						className="hidden"
 						checked={completePhaseCheck}
 						onChange={handleCompletePhase}
 					/>
@@ -50,13 +50,15 @@ const EditPlayerModal = ({handleSelecPhase, closeEditPlayerModal, currentPlayer,
                 
 				<div className="flex mt-5 justify-between">
 					<button 
-					className="bg-[#ef233c] h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors p-4"
+					className="round-btn red-btn shadow-btn h-10 flex justify-center items-center text-white cursor-pointer transition-colors p-4"
 					onClick={closeEditPlayerModal}
-					>Cancel</button>
+					>
+						<span>Cancel</span>
+					</button>
 					<button 
-					className="bg-[#274c77] h-10 flex justify-center items-center text-white cursor-pointer hover:bg-[#14213d] transition-colors p-4"
+					className="round-btn open-btn shadow-btn h-10 flex justify-center items-center text-white cursor-pointer transition-colors p-4"
 					onClick={() => editPlayerInfo(currentPlayer.id)}
-					>Okay</button>
+					><span>Okay</span></button>
 				</div>
 			</div>
 		</div>
