@@ -1,8 +1,10 @@
+import { CrossSvg, TickSvg } from "./SvgComponents";
+
 const EditPlayerModal = ({handleSelecPhase, closeEditPlayerModal, currentPlayer, editPlayerInfo, completePhaseCheck, handleCompletePhase, playerTotalPointsInput, handleTotalPointChange, totalPointsInputRef, phases, currentPlayerPhase}) => {
 	return (
 		<div className="fixed inset-0 z-10 h-full flex items-center justify-center bg-slate-500/70">
 			<div className="p-5 max-w-[300px] rounded-[21px] bg-white modal-style relative">
-				<h2 className="font-bold text-[28px]">Update player info</h2>
+				<h2 className="font-bold text-[22px] mb-2">Update player info</h2>
 				{currentPlayer.name}
 				<label htmlFor="playerTotalPoints" className="block">
 					Player Points
@@ -21,7 +23,7 @@ const EditPlayerModal = ({handleSelecPhase, closeEditPlayerModal, currentPlayer,
 					<select 
 						name="allPhasesSelect" 
 						id="allPhasesSelect"
-						className="block p-2 mt-2 text-sm w-full"
+						className="block p-2 mt-2 text-sm w-full text-white round-btn shadow-btn overflow-hidden text-ellipsis max-w-100% whitespace-nowrap"
 						defaultValue={currentPlayerPhase}
 						onChange={() => handleSelecPhase(event, currentPlayer)}
 					>
@@ -31,14 +33,22 @@ const EditPlayerModal = ({handleSelecPhase, closeEditPlayerModal, currentPlayer,
 									value={phase}
 									key={phase}
 								>
-									{phase} | phase {i+1}
+									phase {i+1} | {phase}
 								</option>
 							)
 						})}
 					</select>
 				</label>
-				<label htmlFor="completePhase" className="border-[#274c77] border-2 h-10 flex justify-center items-center text-[#333] cursor-pointer hover:border-[#14213d] transition-colors mt-4 rounded-[31px]">
+				<label htmlFor="completePhase" className="border-[#274c77] border-2 h-10 flex justify-center items-center text-[#333] cursor-pointer transition-colors mt-4 rounded-[31px]">
 					Complete Phase?
+					{completePhaseCheck ? 
+						<div className="ml-2">
+							<TickSvg />
+						</div> : 
+						<div className="ml-2">
+							<CrossSvg />
+						</div>
+					}
 					<input 
 						type="checkbox" 
 						id="completePhase" 

@@ -98,7 +98,7 @@ const App = () => {
 	}
 	
 	function openEditPlayerModals(event, currentPlayer, playerRef, editBtnRef, removeBtnRef) {
-		if (editBtnRef.current === event.target) {
+		if (editBtnRef.current === event.target || editBtnRef.current.contains(event.target)) {
 			setIsEditPlayerModal(true);
 			setTimeout(() => {
 				totalPointsInputRef.current.focus();
@@ -107,7 +107,7 @@ const App = () => {
 			setСurrentPlayer(currentPlayer);
 			setPlayerTotalPointsInput(currentPlayer.points);
 			setCurrentPlayerPhase(phases[currentPlayer.phase-1]);
-		} else if(removeBtnRef.current === event.target) {
+		} else if(removeBtnRef.current === event.target || removeBtnRef.current.contains(event.target)) {
 			setIsAreYouSureModal(true);
 			setAreYouSureAction('removePlayer');
 			setСurrentPlayer(currentPlayer);
@@ -269,7 +269,7 @@ const App = () => {
 	useEffect(() => {
 		createPlayerElements()
 		localStorage.setItem('players', JSON.stringify(players));
-		setWinner(players.filter(player => player.phase === 10));
+		setWinner(players.filter(player => player.phase > 10));
 	}, [players]);
 
 	useEffect(() => {
@@ -340,6 +340,7 @@ const App = () => {
 				phases={phases}
 				currentPlayerPhase={currentPlayerPhase}
 				handleSelecPhase={handleSelecPhase}
+				completePhaseCheck={completePhaseCheck}
 			/> : ''}
 
 			{isGameEnd ? <WinnerModal 

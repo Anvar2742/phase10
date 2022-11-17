@@ -13,6 +13,10 @@ export function shuffle(array) {
 		[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
 	}
 
+	if (array.length > 10) {
+		array = array.slice(0, 10);
+	}
+
 	return array;
 }
 

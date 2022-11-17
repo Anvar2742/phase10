@@ -4,8 +4,9 @@
 @tailwind utilities;
 
 
-button, input {
+body {
     font-family: 'Fredoka One', cursive;
+    letter-spacing: 1px;
 }
 .btn {
     letter-spacing: 2px;
@@ -49,7 +50,7 @@ thead {
     border-radius: 22px;
     border: 3px solid #FFFFFF;
     text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.15);
-    font-size: 18px;
+    /* font-size: 18px; */
     background: #4ec407;
     overflow: hidden;
     /* height: 40px; */
