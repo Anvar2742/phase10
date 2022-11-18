@@ -103,6 +103,10 @@ thead {
     top: unset;
 }
 
+.round-btn:active:before {
+    top: unset;
+}
+
 .red-btn {
     background: #c01227;
 }
