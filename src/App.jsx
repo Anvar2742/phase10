@@ -171,7 +171,8 @@ const App = () => {
 					id: nanoid(),
 					name: name,
 					points: 0,
-					phase: 1
+					phase: 1,
+					isRoundEnd: false
 				}
 			]
 		})
@@ -195,10 +196,11 @@ const App = () => {
 					return {
 						...player,
 						points: +(player.points) + +(playerPointsInput),
-						phase: completePhaseCheck ? player.phase + 1 : player.phase
+						phase: completePhaseCheck ? player.phase + 1 : player.phase,
+						isRoundEnd: true
 					}
 				} else {
-					return player
+					return player;
 				}
 			})
 		})
@@ -263,6 +265,19 @@ const App = () => {
 		setIsAreYouSureModal(false);
 	}
 
+	function checkAllPlayersEndRound(players) {
+		if (players.every(player => player.isRoundEnd)) {
+			setPlayers(prevPlayers => {
+				return prevPlayers.map(player => {
+					return {
+						...player,
+						isRoundEnd: false
+					}
+				})
+			})
+		}
+	}
+
 
 
 	/* UseEffects */
@@ -270,6 +285,7 @@ const App = () => {
 		createPlayerElements()
 		localStorage.setItem('players', JSON.stringify(players));
 		setWinner(players.filter(player => player.phase > 10));
+		checkAllPlayersEndRound(players);
 	}, [players]);
 
 	useEffect(() => {
@@ -288,10 +304,6 @@ const App = () => {
 			setIsErrorMsg(false);
 		}, 3000);
 	}, [isErrorMsg])
-
-	useEffect(() => {
-		// document.documentElement.style.setProperty('--bodyColor', 'red');
-	}, [])
 
   return (
 	<main 

@@ -22,13 +22,13 @@ const AreYourSureModal = ({closeAreYouSureModal, areYouSureAction, resetPlayers,
                 <h2 className="font-semibold text-[22px]">Are you sure {areYouSureMsg}?</h2>
                 <div className="flex mt-5 justify-between">
                     <button 
-                        className="round-btn red-btn shadow-btn h-10 flex justify-center items-center text-white cursor-pointer transition-colors p-4"
+                        className="round-btn text-[18px] red-btn shadow-btn h-10 flex justify-center items-center text-white cursor-pointer transition-colors p-4"
                         onClick={closeAreYouSureModal}
                     >
                         <span>Cancel</span>
                     </button>
                     <button 
-                        className="round-btn open-btn shadow-btn flex justify-center items-center text-white cursor-pointer transition-colors px-4 capitalize"
+                        className="round-btn text-[18px] open-btn shadow-btn flex justify-center items-center text-white cursor-pointer transition-colors px-4 capitalize"
                         onClick={areYourSureFunction}
                     >
                         <span>{areYouSureBtn}</span>

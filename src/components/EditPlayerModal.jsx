@@ -23,7 +23,7 @@ const EditPlayerModal = ({handleSelecPhase, closeEditPlayerModal, currentPlayer,
 					<select 
 						name="allPhasesSelect" 
 						id="allPhasesSelect"
-						className="block p-2 mt-2 text-sm w-full text-white round-btn shadow-btn overflow-hidden text-ellipsis max-w-100% whitespace-nowrap"
+						className="block p-2 mt-2 text-sm w-full text-white round-btn text-[18px] shadow-btn overflow-hidden text-ellipsis max-w-100% whitespace-nowrap"
 						defaultValue={currentPlayerPhase}
 						onChange={() => handleSelecPhase(event, currentPlayer)}
 					>
@@ -60,13 +60,13 @@ const EditPlayerModal = ({handleSelecPhase, closeEditPlayerModal, currentPlayer,
                 
 				<div className="flex mt-5 justify-between">
 					<button 
-					className="round-btn red-btn shadow-btn h-10 flex justify-center items-center text-white cursor-pointer transition-colors p-4"
+					className="round-btn text-[18px] red-btn shadow-btn h-10 flex justify-center items-center text-white cursor-pointer transition-colors p-4"
 					onClick={closeEditPlayerModal}
 					>
 						<span>Cancel</span>
 					</button>
 					<button 
-					className="round-btn open-btn shadow-btn h-10 flex justify-center items-center text-white cursor-pointer transition-colors p-4"
+					className="round-btn text-[18px] open-btn shadow-btn h-10 flex justify-center items-center text-white cursor-pointer transition-colors p-4"
 					onClick={() => editPlayerInfo(currentPlayer.id)}
 					><span>Okay</span></button>
 				</div>

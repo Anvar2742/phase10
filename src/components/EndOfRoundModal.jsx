@@ -40,13 +40,13 @@ const EndOfRoundModal = ({players, closeEndOfRoundModal, currentPlayer, pointsIn
 				</label>
 				<div className="flex mt-5 justify-between">
 					<button 
-					className="round-btn red-btn shadow-btn h-10 flex justify-center items-center text-white cursor-pointer transition-colors p-4"
+					className="round-btn text-[18px] red-btn shadow-btn h-10 flex justify-center items-center text-white cursor-pointer transition-colors p-4"
 					onClick={closeEndOfRoundModal}
 					>
 						<span>Cancel</span>
 					</button>
 					<button 
-					className="round-btn open-btn shadow-btn h-10 flex justify-center items-center text-white cursor-pointer transition-colors p-4"
+					className="round-btn text-[18px] open-btn shadow-btn h-10 flex justify-center items-center text-white cursor-pointer transition-colors p-4"
 					onClick={() => updatePlayerInfo(currentPlayer.id)}
 					><span>Okay</span></button>
 				</div>

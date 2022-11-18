@@ -21,15 +21,17 @@ const WinnerModal = ({players, closeWinnerModal, winner}) => {
                     })}
                     <div className="flex mt-5 justify-between">
                         <button 
-                            className="bg-[#ef233c] h-10 w-full flex justify-center items-center text-white cursor-pointer transition-colors p-4"
+                            className="round-btn red-btn shadow-btn h-10 w-full flex justify-center items-center text-white cursor-pointer transition-colors p-4"
                             onClick={closeWinnerModal}
                         >
-						<span>Cancel</span>
+						<span>Close</span>
 					</button>
                     </div>
                 </div>
             </div>
-            <ReactConfetti />
+            <ReactConfetti
+                wind={.01}
+            />
         </>
 	)
 }
