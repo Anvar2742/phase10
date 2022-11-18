@@ -12,7 +12,6 @@ import {shuffle} from "./assets";
 import { max, min, phasesArray } from "./assets/constants";
 import AreYourSureModal from "./components/AreYourSureModal";
 import ErrorMsg from "./components/ErrorMsg";
-import {default as bg} from './assets/bg.jpg';
 
 
 const App = () => {
@@ -143,6 +142,12 @@ const App = () => {
 			}
 			setIsAreYouSureModal(true);
 		} else {
+			if (event.target === newBtnRef.current || newBtnRef.current.contains(event.target)) {
+				setAreYouSureAction('new');
+				setIsAreYouSureModal(true);
+				return;
+			}
+
 			setIsErrorMsg(true);
 			setErrorMessage('No players');
 		}
@@ -266,7 +271,7 @@ const App = () => {
 	}
 
 	function checkAllPlayersEndRound(players) {
-		if (players.every(player => player.isRoundEnd)) {
+		if (players.length && players.every(player => player.isRoundEnd)) {
 			setPlayers(prevPlayers => {
 				return prevPlayers.map(player => {
 					return {
@@ -285,7 +290,9 @@ const App = () => {
 		createPlayerElements()
 		localStorage.setItem('players', JSON.stringify(players));
 		setWinner(players.filter(player => player.phase > 10));
-		checkAllPlayersEndRound(players);
+		if (players.every(player => player.isRoundEnd)) {
+			checkAllPlayersEndRound(players);
+		}
 	}, [players]);
 
 	useEffect(() => {
@@ -307,7 +314,6 @@ const App = () => {
 
   return (
 	<main 
-		// style={{backgroundImage: `url('${bg}')`}}
 		className="h-screen bg-no-repeat bg-cover bg-center bg-radial-main py-[20px]">
 		<div className="max-w-sm mx-auto bg-white overflow-y-hidden py-2 h-full rounded-[22px]">
 			<NavBar 
@@ -369,6 +375,7 @@ const App = () => {
 				newGame={newGame}
 				currentPlayer={currentPlayer}
 				deletePlayer={deletePlayer}
+				players={players}
 			/> : ''}
 
 			<ErrorMsg 
