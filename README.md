@@ -26,7 +26,7 @@
 
 ###
 
-<p align="left">There is a great game called Phase 10. The rules are simple: the player who finishes all phases first wins. But as you you can see from the name of the game there 10 phases. It would be hard to play and try to memorize who on which phase is. And moreover, players have points which they also need to memorize. </br> This app allows the players to easily track their phases and points.</p>
+<p align="left">There is a great game called Phase 10. The rules are simple: the player who finishes all phases first wins. But as you you can see from the name of the game there 10 phases. It would be hard to try to memorize who is on which phase. And moreover, players have points which they also need to count. </br> This app allows the players to easily track their phases and points.</p>
 
 ###
 
