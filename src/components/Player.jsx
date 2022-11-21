@@ -17,7 +17,7 @@ const Player = ({player, phases, openEditPlayerModals}) => {
                 className={player.isRoundEnd ? "bg-green-500 text-white" : "text-[#333]"}
             >
                 <td className="p-2 w-[25%]">
-                    <span className="block w-full capitalize text-sm text-ellipsis max-w-[90px] overflow-hidden">{player.name}</span>
+                    <span className="block w-full capitalize text-sm text-ellipsis max-w-[90px] overflow-hidden whitespace-nowrap">{player.name}</span>
                 </td>
                 <td className="p-4 text-center w-[15%]">{player.points}</td>
                 <td className="p-4 text-center w-[15%]">{player.phase}</td>
